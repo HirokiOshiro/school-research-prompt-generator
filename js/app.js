@@ -60,6 +60,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     /**
+     * Notice panel close button handler
+     */
+    const noticeCloseBtn = document.getElementById('noticeCloseBtn');
+    noticeCloseBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        closeNoticePanel();
+    });
+
+    /**
      * Desktop hover handlers for notice banner
      */
     if (window.matchMedia('(hover: hover)').matches) {
