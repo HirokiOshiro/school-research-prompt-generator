@@ -330,18 +330,17 @@ document.addEventListener('DOMContentLoaded', function() {
      */
     document.querySelectorAll('input, select').forEach(input => {
         input.addEventListener('input', function() {
-            clearInputError(this);
+            // Find associated error span
+            const errorSpanId = this.id + 'Error';
+            const errorSpan = document.getElementById(errorSpanId);
+            clearInputError(this, errorSpan);
         });
         input.addEventListener('change', function() {
-            clearInputError(this);
+            // Find associated error span
+            const errorSpanId = this.id + 'Error';
+            const errorSpan = document.getElementById(errorSpanId);
+            clearInputError(this, errorSpan);
         });
-    });
-
-    /**
-     * Error close button handler
-     */
-    errorClose.addEventListener('click', function() {
-        hideErrors();
     });
 
     /**
