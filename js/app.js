@@ -100,13 +100,13 @@ document.addEventListener('DOMContentLoaded', function() {
      * Modal handlers
      */
     function showVerificationModal() {
-        verificationModal.hidden = false;
+        verificationModal.classList.add('show');
         document.body.style.overflow = 'hidden'; // Prevent background scroll
         modalConfirmBtn.focus();
     }
 
     function hideVerificationModal() {
-        verificationModal.hidden = true;
+        verificationModal.classList.remove('show');
         document.body.style.overflow = ''; // Restore scroll
         enableCopyButton();
     }
@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Close modal on escape key
     document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && !verificationModal.hidden) {
+        if (e.key === 'Escape' && verificationModal.classList.contains('show')) {
             hideVerificationModal();
         }
     });
