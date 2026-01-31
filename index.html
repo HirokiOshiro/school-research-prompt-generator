@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高校調査プロンプト生成ツール | School Research Prompt Generator</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎓 高校調査プロンプト生成ツール</h1>
+            <p class="subtitle">School Research Prompt Generator</p>
+        </header>
+
+        <main>
+            <form id="promptForm">
+                <!-- 基本情報セクション -->
+                <section class="form-section">
+                    <h2>■ 基本情報</h2>
+                    
+                    <div class="form-group">
+                        <label for="schoolName">高校名 <span class="required">*</span></label>
+                        <input type="text" id="schoolName" name="schoolName" 
+                               placeholder="例: Beijing No. 4 High School / 北京市第四中学" required>
+                        <small>英語名または現地語名を入力してください</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="country">所在国 <span class="required">*</span></label>
+                        <select id="country" name="country" required>
+                            <option value="">-- 選択してください --</option>
+                            <option value="China">中国 (China)</option>
+                            <option value="Korea">韓国 (South Korea)</option>
+                            <option value="Vietnam">ベトナム (Vietnam)</option>
+                            <option value="Taiwan">台湾 (Taiwan)</option>
+                            <option value="Thailand">タイ (Thailand)</option>
+                            <option value="Indonesia">インドネシア (Indonesia)</option>
+                            <option value="Malaysia">マレーシア (Malaysia)</option>
+                            <option value="Philippines">フィリピン (Philippines)</option>
+                            <option value="India">インド (India)</option>
+                            <option value="Japan">日本 (Japan)</option>
+                            <option value="Other">その他 (Other)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="otherCountryGroup" style="display: none;">
+                        <label for="otherCountry">その他の国名 <span class="required">*</span></label>
+                        <input type="text" id="otherCountry" name="otherCountry" 
+                               placeholder="例: Singapore">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cityState">都市/州（任意）</label>
+                        <input type="text" id="cityState" name="cityState" 
+                               placeholder="例: Beijing / ソウル / Ho Chi Minh City">
+                    </div>
+                </section>
+
+                <!-- 学校詳細セクション -->
+                <section class="form-section">
+                    <h2>■ 学校詳細（わかる範囲で）</h2>
+
+                    <div class="form-group">
+                        <label for="schoolType">学校種別</label>
+                        <select id="schoolType" name="schoolType">
+                            <option value="">-- 不明/未選択 --</option>
+                            <option value="Public">公立 (Public)</option>
+                            <option value="Private">私立 (Private)</option>
+                            <option value="International">インターナショナルスクール (International)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>カリキュラム（複数選択可）</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="curriculum" value="IB"> IB (国際バカロレア)
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="curriculum" value="A-Level"> A-Level
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="curriculum" value="AP"> AP (Advanced Placement)
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="curriculum" value="National"> 国内課程 (National Curriculum)
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="curriculum" value="Unknown"> 不明
+                            </label>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 調査設定セクション -->
+                <section class="form-section">
+                    <h2>■ 調査設定</h2>
+
+                    <div class="form-group">
+                        <label>調査目的 <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="purpose" value="new" required> 新規登録
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="purpose" value="update"> 情報更新
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="purpose" value="verify"> 資格確認
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label standalone">
+                            <input type="checkbox" id="includeLocalSearch" name="includeLocalSearch">
+                            現地語での検索指示を含める
+                        </label>
+                        <small>中国語、韓国語、ベトナム語等での検索クエリ例を出力に含めます</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="additionalUrls">追加参照URL（任意）</label>
+                        <input type="text" id="additionalUrls" name="additionalUrls" 
+                               placeholder="例: https://example.com, https://school.edu">
+                        <small>確認したいURLがあればカンマ区切りで入力</small>
+                    </div>
+                </section>
+
+                <!-- ボタン -->
+                <div class="button-group">
+                    <button type="submit" class="btn btn-primary" id="generateBtn">
+                        プロンプト生成
+                    </button>
+                    <button type="reset" class="btn btn-secondary" id="resetBtn">
+                        リセット
+                    </button>
+                </div>
+            </form>
+
+            <!-- 出力セクション -->
+            <section class="output-section" id="outputSection" style="display: none;">
+                <div class="output-header">
+                    <h2>■ 生成されたプロンプト</h2>
+                    <button type="button" class="btn btn-copy" id="copyBtn">
+                        📋 コピー
+                    </button>
+                </div>
+                <div class="output-container">
+                    <pre id="outputPrompt"></pre>
+                </div>
+                <div class="copy-feedback" id="copyFeedback">
+                    ✓ クリップボードにコピーしました
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>School Research Prompt Generator v1.0 | Phase 1 Prototype</p>
+        </footer>
+    </div>
+
+    <script src="js/country-data.js"></script>
+    <script src="js/prompt-builder.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
