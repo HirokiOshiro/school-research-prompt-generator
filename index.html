@@ -80,16 +80,6 @@
                 </div>
             </section>
 
-            <!-- エラー表示領域 -->
-            <div id="errorContainer" class="error-container" role="alert" aria-live="polite" style="display: none;">
-                <div class="error-header">
-                    <span class="error-icon">⚠️</span>
-                    <span class="error-title">入力エラー / Input Error</span>
-                    <button type="button" class="error-close" id="errorClose" aria-label="エラーを閉じる / Close error">&times;</button>
-                </div>
-                <ul id="errorList" class="error-list"></ul>
-            </div>
-
             <!-- 重要な注意事項バナー -->
             <div class="important-notice-banner" role="note" id="noticeBanner">
                 <div class="notice-icon">⚠️</div>
@@ -174,7 +164,8 @@
                         </label>
                         <input type="text" id="schoolName" name="schoolName" 
                                placeholder="例 / e.g.: Beijing No. 4 High School / 北京市第四中学" 
-                               required aria-required="true" aria-describedby="schoolNameHelp">
+                               required aria-required="true" aria-describedby="schoolNameHelp schoolNameError">
+                        <span class="inline-error" id="schoolNameError" role="alert" aria-live="polite"></span>
                         <small id="schoolNameHelp">英語名または現地語名を入力 / Enter in English or local language</small>
                     </div>
 
@@ -185,7 +176,7 @@
                                 <span class="tooltip-icon">?</span>
                             </button>
                         </label>
-                        <select id="country" name="country" required aria-required="true">
+                        <select id="country" name="country" required aria-required="true" aria-describedby="countryError">
                             <option value="">-- 選択 / Select --</option>
                             <option value="China">中国 (China)</option>
                             <option value="Korea">韓国 (South Korea)</option>
@@ -199,12 +190,14 @@
                             <option value="Japan">日本 (Japan)</option>
                             <option value="Other">その他 (Other)</option>
                         </select>
+                        <span class="inline-error" id="countryError" role="alert" aria-live="polite"></span>
                     </div>
 
                     <div class="form-group" id="otherCountryGroup" style="display: none;">
                         <label for="otherCountry">その他の国名 / Other Country Name <span class="required">*</span></label>
                         <input type="text" id="otherCountry" name="otherCountry" 
-                               placeholder="例 / e.g.: Singapore">
+                               placeholder="例 / e.g.: Singapore" aria-describedby="otherCountryError">
+                        <span class="inline-error" id="otherCountryError" role="alert" aria-live="polite"></span>
                     </div>
 
                     <!-- 国別警告表示エリア -->
@@ -285,7 +278,7 @@
                                 <span class="tooltip-icon">?</span>
                             </button>
                         </label>
-                        <div class="radio-group" role="radiogroup" aria-labelledby="purposeLabel" aria-required="true">
+                        <div class="radio-group" role="radiogroup" aria-labelledby="purposeLabel" aria-required="true" aria-describedby="purposeError">
                             <label class="radio-label">
                                 <input type="radio" name="purpose" value="new" required> 新規登録 (New)
                             </label>
@@ -296,6 +289,7 @@
                                 <input type="radio" name="purpose" value="verify"> 資格確認 (Verify)
                             </label>
                         </div>
+                        <span class="inline-error" id="purposeError" role="alert" aria-live="polite"></span>
                     </div>
 
                     <div class="form-group">
@@ -309,8 +303,9 @@
                     <div class="form-group">
                         <label for="additionalUrls">追加URL / Additional URLs <span class="optional">任意 / Optional</span></label>
                         <input type="text" id="additionalUrls" name="additionalUrls" 
-                               placeholder="e.g. https://example.com, https://school.edu">
-                        <small class="hint-bilingual">確認したいURLをカンマ区切り / Comma-separated URLs to check</small>
+                               placeholder="e.g. https://example.com, https://school.edu" aria-describedby="additionalUrlsError additionalUrlsHelp">
+                        <span class="inline-error" id="additionalUrlsError" role="alert" aria-live="polite"></span>
+                        <small id="additionalUrlsHelp" class="hint-bilingual">確認したいURLをカンマ区切り / Comma-separated URLs to check</small>
                     </div>
                 </section>
 

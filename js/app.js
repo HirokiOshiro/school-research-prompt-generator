@@ -18,9 +18,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const copyFeedback = document.getElementById('copyFeedback');
     const resetBtn = document.getElementById('resetBtn');
     const generateBtn = document.getElementById('generateBtn');
-    const errorContainer = document.getElementById('errorContainer');
-    const errorList = document.getElementById('errorList');
-    const errorClose = document.getElementById('errorClose');
+    
+    // Inline error elements
+    const schoolNameError = document.getElementById('schoolNameError');
+    const countryError = document.getElementById('countryError');
+    const otherCountryError = document.getElementById('otherCountryError');
+    const purposeError = document.getElementById('purposeError');
+    const additionalUrlsError = document.getElementById('additionalUrlsError');
     
     // Guide elements
     const guideToggle = document.getElementById('guideToggle');
@@ -346,13 +350,11 @@ document.addEventListener('DOMContentLoaded', function() {
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         
-        // Hide previous errors
-        hideErrors();
-        
-        // Validate form
+        // Validate form (this clears previous errors and sets new ones)
         const validationResult = validateForm();
         if (!validationResult.isValid) {
-            showErrors(validationResult.errors);
+            // Scroll to first error smoothly
+            scrollToError(validationResult.firstErrorElement);
             return;
         }
         
@@ -388,8 +390,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Clear any feedback
         copyFeedback.classList.remove('show');
         
-        // Hide errors
-        hideErrors();
+        // Clear all inline errors
+        clearAllInlineErrors();
         
         // Clear all input error states
         document.querySelectorAll('.input-error').forEach(el => {
@@ -420,48 +422,67 @@ document.addEventListener('DOMContentLoaded', function() {
 
     /**
      * Validate the form
-     * @returns {Object} { isValid: boolean, errors: string[] }
+     * @returns {Object} { isValid: boolean, errors: Object[], firstErrorElement: HTMLElement }
      */
     function validateForm() {
         const errors = [];
+        let firstErrorElement = null;
+        
+        // Clear all previous inline errors
+        clearAllInlineErrors();
         
         // Check school name
         const schoolNameInput = document.getElementById('schoolName');
         const schoolName = schoolNameInput.value.trim();
         if (!schoolName) {
-            errors.push('高校名を入力してください / Please enter school name');
-            setInputError(schoolNameInput);
+            const msg = '高校名を入力してください / Please enter school name';
+            errors.push({ field: 'schoolName', message: msg });
+            setInputError(schoolNameInput, schoolNameError, msg);
+            if (!firstErrorElement) firstErrorElement = schoolNameInput;
         } else if (schoolName.length < 2) {
-            errors.push('高校名は2文字以上 / School name: 2+ characters required');
-            setInputError(schoolNameInput);
+            const msg = '高校名は2文字以上 / School name: 2+ characters required';
+            errors.push({ field: 'schoolName', message: msg });
+            setInputError(schoolNameInput, schoolNameError, msg);
+            if (!firstErrorElement) firstErrorElement = schoolNameInput;
         } else if (schoolName.length > 200) {
-            errors.push('高校名は200文字以内 / School name: max 200 characters');
-            setInputError(schoolNameInput);
+            const msg = '高校名は200文字以内 / School name: max 200 characters';
+            errors.push({ field: 'schoolName', message: msg });
+            setInputError(schoolNameInput, schoolNameError, msg);
+            if (!firstErrorElement) firstErrorElement = schoolNameInput;
         }
         
         // Check country
         const country = countrySelect.value;
         if (!country) {
-            errors.push('所在国を選択してください / Please select a country');
-            setInputError(countrySelect);
+            const msg = '所在国を選択してください / Please select a country';
+            errors.push({ field: 'country', message: msg });
+            setInputError(countrySelect, countryError, msg);
+            if (!firstErrorElement) firstErrorElement = countrySelect;
         }
         
         // Check other country if selected
         if (country === 'Other') {
             const otherCountry = otherCountryInput.value.trim();
             if (!otherCountry) {
-                errors.push('その他の国名を入力してください / Please enter country name');
-                setInputError(otherCountryInput);
+                const msg = 'その他の国名を入力してください / Please enter country name';
+                errors.push({ field: 'otherCountry', message: msg });
+                setInputError(otherCountryInput, otherCountryError, msg);
+                if (!firstErrorElement) firstErrorElement = otherCountryInput;
             } else if (otherCountry.length < 2) {
-                errors.push('国名は2文字以上 / Country name: 2+ characters required');
-                setInputError(otherCountryInput);
+                const msg = '国名は2文字以上 / Country name: 2+ characters required';
+                errors.push({ field: 'otherCountry', message: msg });
+                setInputError(otherCountryInput, otherCountryError, msg);
+                if (!firstErrorElement) firstErrorElement = otherCountryInput;
             }
         }
         
         // Check purpose
         const purpose = document.querySelector('input[name="purpose"]:checked');
         if (!purpose) {
-            errors.push('調査目的を選択してください / Please select a research purpose');
+            const msg = '調査目的を選択してください / Please select a research purpose';
+            errors.push({ field: 'purpose', message: msg });
+            setInlineError(purposeError, msg);
+            if (!firstErrorElement) firstErrorElement = document.querySelector('input[name="purpose"]');
         }
         
         // Check additional URLs format (if provided)
@@ -472,57 +493,89 @@ document.addEventListener('DOMContentLoaded', function() {
             const urlPattern = /^https?:\/\/.+/i;
             const invalidUrls = urls.filter(u => !urlPattern.test(u));
             if (invalidUrls.length > 0) {
-                errors.push('URLはhttp://またはhttps://形式で / URL must start with http:// or https://');
-                setInputError(additionalUrlsInput);
+                const msg = 'URLはhttp://またはhttps://形式で / URL must start with http:// or https://';
+                errors.push({ field: 'additionalUrls', message: msg });
+                setInputError(additionalUrlsInput, additionalUrlsError, msg);
+                if (!firstErrorElement) firstErrorElement = additionalUrlsInput;
             }
         }
         
         return {
             isValid: errors.length === 0,
-            errors: errors
+            errors: errors,
+            firstErrorElement: firstErrorElement
         };
     }
 
     /**
-     * Set input error state
-     * @param {HTMLElement} input
+     * Clear all inline errors
      */
-    function setInputError(input) {
+    function clearAllInlineErrors() {
+        // Clear inline error messages
+        [schoolNameError, countryError, otherCountryError, purposeError, additionalUrlsError].forEach(el => {
+            if (el) {
+                el.textContent = '';
+                el.classList.remove('show');
+            }
+        });
+        
+        // Clear input error states
+        document.querySelectorAll('.input-error').forEach(input => {
+            input.classList.remove('input-error');
+            input.removeAttribute('aria-invalid');
+        });
+    }
+
+    /**
+     * Set input error state with inline message
+     * @param {HTMLElement} input
+     * @param {HTMLElement} errorSpan
+     * @param {string} message
+     */
+    function setInputError(input, errorSpan, message) {
         input.classList.add('input-error');
         input.setAttribute('aria-invalid', 'true');
+        if (errorSpan) {
+            setInlineError(errorSpan, message);
+        }
+    }
+
+    /**
+     * Set inline error message
+     * @param {HTMLElement} errorSpan
+     * @param {string} message
+     */
+    function setInlineError(errorSpan, message) {
+        errorSpan.textContent = message;
+        errorSpan.classList.add('show');
     }
 
     /**
      * Clear input error state
      * @param {HTMLElement} input
+     * @param {HTMLElement} errorSpan
      */
-    function clearInputError(input) {
+    function clearInputError(input, errorSpan) {
         input.classList.remove('input-error');
         input.removeAttribute('aria-invalid');
-    }
-
-    /**
-     * Show error messages
-     * @param {string[]} errors
-     */
-    function showErrors(errors) {
-        errorList.innerHTML = errors.map(err => `<li>${err}</li>`).join('');
-        errorContainer.style.display = 'block';
-        errorContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        
-        // Focus first error input
-        const firstErrorInput = document.querySelector('.input-error');
-        if (firstErrorInput) {
-            firstErrorInput.focus();
+        if (errorSpan) {
+            errorSpan.textContent = '';
+            errorSpan.classList.remove('show');
         }
     }
 
     /**
-     * Hide error messages
+     * Scroll to first error element smoothly
+     * @param {HTMLElement} element
      */
-    function hideErrors() {
-        errorContainer.style.display = 'none';
-        errorList.innerHTML = '';
+    function scrollToError(element) {
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // Focus after scroll completes
+            setTimeout(() => {
+                element.focus();
+            }, 500);
+        }
     }
 
     /**

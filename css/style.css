@@ -132,6 +132,45 @@ input[type="text"]::placeholder {
     color: var(--text-muted);
 }
 
+/* --- Inline Error Messages --- */
+.inline-error {
+    display: none;
+    margin-top: 6px;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    color: #991b1b;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 6px;
+    animation: slideIn 0.3s ease;
+}
+
+.inline-error.show {
+    display: block;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Input error state */
+.input-error {
+    border-color: var(--error-color) !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
+}
+
+.input-error:focus {
+    border-color: var(--error-color) !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
+}
+
 /* --- Checkbox & Radio Groups --- */
 .checkbox-group,
 .radio-group {
