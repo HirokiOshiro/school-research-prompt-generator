@@ -112,7 +112,114 @@ document.addEventListener('DOMContentLoaded', function() {
             .join('');
         
         countryWarning.style.display = 'block';
+        
+        // Update placeholders based on country
+        updatePlaceholders(country);
     }
+
+    /**
+     * Update input placeholders based on selected country
+     * @param {string} country
+     */
+    function updatePlaceholders(country) {
+        const schoolNameInput = document.getElementById('schoolName');
+        const cityStateInput = document.getElementById('cityState');
+        
+        const placeholders = {
+            'China': {
+                schoolName: '例: Beijing No. 4 High School / 北京市第四中学',
+                cityState: '例: Beijing / Shanghai / Guangzhou'
+            },
+            'Korea': {
+                schoolName: '例: Seoul Foreign School / 서울외국인학교',
+                cityState: '例: Seoul (서울) / Busan (부산)'
+            },
+            'Vietnam': {
+                schoolName: '例: Le Hong Phong High School / Trường THPT Lê Hồng Phong',
+                cityState: '例: Ho Chi Minh City / Hanoi'
+            },
+            'Taiwan': {
+                schoolName: '例: Taipei Municipal Jianguo High School / 臺北市立建國高級中學',
+                cityState: '例: Taipei (台北) / Kaohsiung (高雄)'
+            },
+            'Thailand': {
+                schoolName: '例: Triam Udom Suksa School / โรงเรียนเตรียมอุดมศึกษา',
+                cityState: '例: Bangkok / Chiang Mai'
+            },
+            'Indonesia': {
+                schoolName: '例: SMA Negeri 3 Jakarta / Jakarta State High School 3',
+                cityState: '例: Jakarta / Surabaya / Bandung'
+            },
+            'Malaysia': {
+                schoolName: '例: Victoria Institution / SMK (P) Sri Aman',
+                cityState: '例: Kuala Lumpur / Penang / Johor Bahru'
+            },
+            'Philippines': {
+                schoolName: '例: Philippine Science High School / De La Salle Santiago Zobel',
+                cityState: '例: Manila / Cebu / Davao'
+            },
+            'India': {
+                schoolName: '例: Delhi Public School / Kendriya Vidyalaya',
+                cityState: '例: New Delhi / Mumbai / Bangalore'
+            },
+            'Japan': {
+                schoolName: '例: 開成高等学校 / Kaisei Senior High School',
+                cityState: '例: 東京 / 大阪 / 名古屋'
+            }
+        };
+        
+        const defaultPlaceholders = {
+            schoolName: '例: [School Name] High School / [現地語名]',
+            cityState: '例: [City Name] / [State/Province]'
+        };
+        
+        const ph = placeholders[country] || defaultPlaceholders;
+        schoolNameInput.placeholder = ph.schoolName;
+        cityStateInput.placeholder = ph.cityState;
+    }
+
+    /**
+     * Step indicator management
+     */
+    const steps = document.querySelectorAll('.step');
+    const stepLines = document.querySelectorAll('.step-line');
+    const formSections = document.querySelectorAll('.form-section[data-section]');
+    
+    /**
+     * Update step indicator based on form section focus
+     */
+    function updateStepIndicator(activeSection) {
+        steps.forEach((step, index) => {
+            const stepNum = parseInt(step.dataset.step);
+            step.classList.remove('active', 'completed');
+            
+            if (stepNum < activeSection) {
+                step.classList.add('completed');
+            } else if (stepNum === activeSection) {
+                step.classList.add('active');
+            }
+        });
+        
+        stepLines.forEach((line, index) => {
+            if (index < activeSection - 1) {
+                line.classList.add('completed');
+            } else {
+                line.classList.remove('completed');
+            }
+        });
+    }
+    
+    // Track which section is being interacted with
+    formSections.forEach(section => {
+        const sectionNum = parseInt(section.dataset.section);
+        const inputs = section.querySelectorAll('input, select');
+        
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                updateStepIndicator(sectionNum);
+            });
+        });
+    });
 
     /**
      * Clear error state on input

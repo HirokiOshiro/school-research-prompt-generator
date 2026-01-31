@@ -72,12 +72,35 @@
             </div>
 
             <form id="promptForm" novalidate>
+                <!-- ステップインジケーター -->
+                <div class="step-indicator" role="navigation" aria-label="入力ステップ">
+                    <div class="step active" data-step="1">
+                        <span class="step-dot">1</span>
+                        <span class="step-label">基本情報</span>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step" data-step="2">
+                        <span class="step-dot">2</span>
+                        <span class="step-label">学校詳細</span>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step" data-step="3">
+                        <span class="step-dot">3</span>
+                        <span class="step-label">調査設定</span>
+                    </div>
+                </div>
+
                 <!-- 基本情報セクション -->
-                <section class="form-section">
+                <section class="form-section" data-section="1">
                     <h2>■ 基本情報</h2>
                     
                     <div class="form-group">
-                        <label for="schoolName">高校名 <span class="required">*</span></label>
+                        <label for="schoolName">
+                            高校名 <span class="required">*</span>
+                            <button type="button" class="tooltip-btn" aria-label="高校名のヘルプ" data-tooltip="英語名がわかる場合は英語名を優先。現地語のみの場合はそのまま入力してOK。">
+                                <span class="tooltip-icon">?</span>
+                            </button>
+                        </label>
                         <input type="text" id="schoolName" name="schoolName" 
                                placeholder="例: Beijing No. 4 High School / 北京市第四中学" 
                                required aria-required="true" aria-describedby="schoolNameHelp">
@@ -85,7 +108,12 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="country">所在国 <span class="required">*</span></label>
+                        <label for="country">
+                            所在国 <span class="required">*</span>
+                            <button type="button" class="tooltip-btn" aria-label="所在国のヘルプ" data-tooltip="国を選択すると、その国の教育制度に特化したプロンプトが生成されます。">
+                                <span class="tooltip-icon">?</span>
+                            </button>
+                        </label>
                         <select id="country" name="country" required aria-required="true">
                             <option value="">-- 選択してください --</option>
                             <option value="China">中国 (China)</option>
@@ -118,18 +146,28 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="cityState">都市/州（任意）</label>
+                        <label for="cityState">
+                            都市/州（任意）
+                            <button type="button" class="tooltip-btn" aria-label="都市/州のヘルプ" data-tooltip="入力するとより精度の高い検索が可能になります。不明な場合は空欄でOK。">
+                                <span class="tooltip-icon">?</span>
+                            </button>
+                        </label>
                         <input type="text" id="cityState" name="cityState" 
                                placeholder="例: Beijing / ソウル / Ho Chi Minh City">
                     </div>
                 </section>
 
                 <!-- 学校詳細セクション -->
-                <section class="form-section">
+                <section class="form-section" data-section="2">
                     <h2>■ 学校詳細（わかる範囲で）</h2>
 
                     <div class="form-group">
-                        <label for="schoolType">学校種別</label>
+                        <label for="schoolType">
+                            学校種別
+                            <button type="button" class="tooltip-btn" aria-label="学校種別のヘルプ" data-tooltip="公立/私立/インターナショナルスクールの区分。不明な場合は未選択でOK。">
+                                <span class="tooltip-icon">?</span>
+                            </button>
+                        </label>
                         <select id="schoolType" name="schoolType">
                             <option value="">-- 不明/未選択 --</option>
                             <option value="Public">公立 (Public)</option>
@@ -139,7 +177,12 @@
                     </div>
 
                     <div class="form-group">
-                        <label>カリキュラム（複数選択可）</label>
+                        <label>
+                            カリキュラム（複数選択可）
+                            <button type="button" class="tooltip-btn" aria-label="カリキュラムのヘルプ" data-tooltip="IB=国際バカロレア、A-Level=英国式、AP=米国式。インターナショナルスクールの場合に重要。">
+                                <span class="tooltip-icon">?</span>
+                            </button>
+                        </label>
                         <div class="checkbox-group">
                             <label class="checkbox-label">
                                 <input type="checkbox" name="curriculum" value="IB"> IB (国際バカロレア)
@@ -161,11 +204,16 @@
                 </section>
 
                 <!-- 調査設定セクション -->
-                <section class="form-section">
+                <section class="form-section" data-section="3">
                     <h2>■ 調査設定</h2>
 
                     <div class="form-group">
-                        <label id="purposeLabel">調査目的 <span class="required">*</span></label>
+                        <label id="purposeLabel">
+                            調査目的 <span class="required">*</span>
+                            <button type="button" class="tooltip-btn" aria-label="調査目的のヘルプ" data-tooltip="新規登録=初めて調べる学校、情報更新=既存データの更新、資格確認=出願資格の確認。">
+                                <span class="tooltip-icon">?</span>
+                            </button>
+                        </label>
                         <div class="radio-group" role="radiogroup" aria-labelledby="purposeLabel" aria-required="true">
                             <label class="radio-label">
                                 <input type="radio" name="purpose" value="new" required> 新規登録
