@@ -386,6 +386,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Hide "Other" country input
         otherCountryGroup.style.display = 'none';
         
+        // Hide country warning
+        countryWarning.style.display = 'none';
+        
         // Clear any feedback
         copyFeedback.classList.remove('show');
         
