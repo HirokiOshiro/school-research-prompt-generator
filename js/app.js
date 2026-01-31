@@ -3,6 +3,7 @@
  * Handles form events, validation, and UI interactions
  * Phase 3: Enhanced validation, error display, loading states, accessibility
  * Phase 3.5: User guide, next steps guide, country warnings
+ * Phase 3.7: Verification modal, notice banner expansion
  */
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -29,6 +30,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const countryWarning = document.getElementById('countryWarning');
     const countryWarningTitle = document.getElementById('countryWarningTitle');
     const countryWarningList = document.getElementById('countryWarningList');
+    
+    // Modal and notice banner elements
+    const verificationModal = document.getElementById('verificationModal');
+    const modalConfirmBtn = document.getElementById('modalConfirmBtn');
+    const noticeBanner = document.getElementById('noticeBanner');
+    const noticeExpandBtn = document.getElementById('noticeExpandBtn');
+    const noticeExpandPanel = document.getElementById('noticeExpandPanel');
 
     /**
      * Guide toggle handler
@@ -37,6 +45,98 @@ document.addEventListener('DOMContentLoaded', function() {
         const isExpanded = this.getAttribute('aria-expanded') === 'true';
         this.setAttribute('aria-expanded', !isExpanded);
         guideContent.hidden = isExpanded;
+    });
+
+    /**
+     * Notice banner expand/collapse handler (for mobile tap and desktop click)
+     */
+    noticeExpandBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        toggleNoticePanel();
+    });
+
+    /**
+     * Desktop hover handlers for notice banner
+     */
+    if (window.matchMedia('(hover: hover)').matches) {
+        noticeBanner.addEventListener('mouseenter', function() {
+            openNoticePanel();
+        });
+        
+        noticeBanner.addEventListener('mouseleave', function() {
+            closeNoticePanel();
+        });
+    }
+
+    /**
+     * Close notice panel when clicking outside
+     */
+    document.addEventListener('click', function(e) {
+        if (!noticeBanner.contains(e.target)) {
+            closeNoticePanel();
+        }
+    });
+
+    function toggleNoticePanel() {
+        const isExpanded = noticeExpandBtn.getAttribute('aria-expanded') === 'true';
+        if (isExpanded) {
+            closeNoticePanel();
+        } else {
+            openNoticePanel();
+        }
+    }
+
+    function openNoticePanel() {
+        noticeExpandBtn.setAttribute('aria-expanded', 'true');
+        noticeExpandPanel.hidden = false;
+    }
+
+    function closeNoticePanel() {
+        noticeExpandBtn.setAttribute('aria-expanded', 'false');
+        noticeExpandPanel.hidden = true;
+    }
+
+    /**
+     * Modal handlers
+     */
+    function showVerificationModal() {
+        verificationModal.hidden = false;
+        document.body.style.overflow = 'hidden'; // Prevent background scroll
+        modalConfirmBtn.focus();
+    }
+
+    function hideVerificationModal() {
+        verificationModal.hidden = true;
+        document.body.style.overflow = ''; // Restore scroll
+        enableCopyButton();
+    }
+
+    function disableCopyButton() {
+        copyBtn.classList.add('disabled');
+        copyBtn.setAttribute('aria-disabled', 'true');
+    }
+
+    function enableCopyButton() {
+        copyBtn.classList.remove('disabled');
+        copyBtn.removeAttribute('aria-disabled');
+    }
+
+    modalConfirmBtn.addEventListener('click', function() {
+        hideVerificationModal();
+    });
+
+    // Close modal on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && !verificationModal.hidden) {
+            hideVerificationModal();
+        }
+    });
+
+    // Close modal on overlay click
+    verificationModal.addEventListener('click', function(e) {
+        if (e.target === verificationModal) {
+            hideVerificationModal();
+        }
     });
 
     /**
@@ -301,6 +401,10 @@ document.addEventListener('DOMContentLoaded', function() {
      * Copy button handler
      */
     copyBtn.addEventListener('click', function() {
+        // Check if button is disabled
+        if (copyBtn.classList.contains('disabled')) {
+            return;
+        }
         copyToClipboard();
     });
 
@@ -480,11 +584,14 @@ document.addEventListener('DOMContentLoaded', function() {
         outputPrompt.textContent = prompt;
         outputSection.style.display = 'block';
         
-        // Scroll to output
-        outputSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Disable copy button until modal is confirmed
+        disableCopyButton();
         
-        // Focus output for accessibility
-        outputPrompt.focus();
+        // Show verification modal
+        showVerificationModal();
+        
+        // Scroll to output (after modal is closed, user will see the output)
+        outputSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     /**
