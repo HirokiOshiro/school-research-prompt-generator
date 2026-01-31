@@ -1,6 +1,7 @@
 /**
  * Main Application Logic for School Research Prompt Generator
  * Handles form events, validation, and UI interactions
+ * Phase 3: Enhanced validation, error display, loading states, accessibility
  */
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -14,6 +15,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const copyBtn = document.getElementById('copyBtn');
     const copyFeedback = document.getElementById('copyFeedback');
     const resetBtn = document.getElementById('resetBtn');
+    const generateBtn = document.getElementById('generateBtn');
+    const errorContainer = document.getElementById('errorContainer');
+    const errorList = document.getElementById('errorList');
+    const errorClose = document.getElementById('errorClose');
 
     /**
      * Show/hide "Other" country input based on selection
@@ -22,11 +27,34 @@ document.addEventListener('DOMContentLoaded', function() {
         if (this.value === 'Other') {
             otherCountryGroup.style.display = 'block';
             otherCountryInput.setAttribute('required', 'required');
+            otherCountryInput.setAttribute('aria-required', 'true');
         } else {
             otherCountryGroup.style.display = 'none';
             otherCountryInput.removeAttribute('required');
+            otherCountryInput.removeAttribute('aria-required');
             otherCountryInput.value = '';
+            clearInputError(otherCountryInput);
         }
+        clearInputError(countrySelect);
+    });
+
+    /**
+     * Clear error state on input
+     */
+    document.querySelectorAll('input, select').forEach(input => {
+        input.addEventListener('input', function() {
+            clearInputError(this);
+        });
+        input.addEventListener('change', function() {
+            clearInputError(this);
+        });
+    });
+
+    /**
+     * Error close button handler
+     */
+    errorClose.addEventListener('click', function() {
+        hideErrors();
     });
 
     /**
@@ -35,19 +63,33 @@ document.addEventListener('DOMContentLoaded', function() {
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         
+        // Hide previous errors
+        hideErrors();
+        
         // Validate form
-        if (!validateForm()) {
+        const validationResult = validateForm();
+        if (!validationResult.isValid) {
+            showErrors(validationResult.errors);
             return;
         }
         
-        // Collect form data
-        const formData = collectFormData();
+        // Show loading state
+        setLoadingState(true);
         
-        // Generate prompt
-        const prompt = PromptBuilder.buildPrompt(formData);
-        
-        // Display output
-        displayOutput(prompt);
+        // Simulate brief processing delay for UX (actual generation is instant)
+        setTimeout(() => {
+            // Collect form data
+            const formData = collectFormData();
+            
+            // Generate prompt
+            const prompt = PromptBuilder.buildPrompt(formData);
+            
+            // Display output
+            displayOutput(prompt);
+            
+            // Hide loading state
+            setLoadingState(false);
+        }, 300);
     });
 
     /**
@@ -62,6 +104,14 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Clear any feedback
         copyFeedback.classList.remove('show');
+        
+        // Hide errors
+        hideErrors();
+        
+        // Clear all input error states
+        document.querySelectorAll('.input-error').forEach(el => {
+            el.classList.remove('input-error');
+        });
     });
 
     /**
@@ -72,42 +122,139 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     /**
+     * Keyboard shortcut: Ctrl/Cmd + Enter to generate
+     */
+    form.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            generateBtn.click();
+        }
+    });
+
+    /**
      * Validate the form
-     * @returns {boolean}
+     * @returns {Object} { isValid: boolean, errors: string[] }
      */
     function validateForm() {
-        // Check required fields
-        const schoolName = document.getElementById('schoolName').value.trim();
-        const country = countrySelect.value;
-        const purpose = document.querySelector('input[name="purpose"]:checked');
+        const errors = [];
         
+        // Check school name
+        const schoolNameInput = document.getElementById('schoolName');
+        const schoolName = schoolNameInput.value.trim();
         if (!schoolName) {
-            alert('高校名を入力してください。');
-            document.getElementById('schoolName').focus();
-            return false;
+            errors.push('高校名を入力してください。');
+            setInputError(schoolNameInput);
+        } else if (schoolName.length < 2) {
+            errors.push('高校名は2文字以上で入力してください。');
+            setInputError(schoolNameInput);
+        } else if (schoolName.length > 200) {
+            errors.push('高校名は200文字以内で入力してください。');
+            setInputError(schoolNameInput);
         }
         
+        // Check country
+        const country = countrySelect.value;
         if (!country) {
-            alert('所在国を選択してください。');
-            countrySelect.focus();
-            return false;
+            errors.push('所在国を選択してください。');
+            setInputError(countrySelect);
         }
         
+        // Check other country if selected
         if (country === 'Other') {
             const otherCountry = otherCountryInput.value.trim();
             if (!otherCountry) {
-                alert('その他の国名を入力してください。');
-                otherCountryInput.focus();
-                return false;
+                errors.push('その他の国名を入力してください。');
+                setInputError(otherCountryInput);
+            } else if (otherCountry.length < 2) {
+                errors.push('国名は2文字以上で入力してください。');
+                setInputError(otherCountryInput);
             }
         }
         
+        // Check purpose
+        const purpose = document.querySelector('input[name="purpose"]:checked');
         if (!purpose) {
-            alert('調査目的を選択してください。');
-            return false;
+            errors.push('調査目的を選択してください。');
         }
         
-        return true;
+        // Check additional URLs format (if provided)
+        const additionalUrlsInput = document.getElementById('additionalUrls');
+        const additionalUrls = additionalUrlsInput.value.trim();
+        if (additionalUrls) {
+            const urls = additionalUrls.split(',').map(u => u.trim()).filter(u => u);
+            const urlPattern = /^https?:\/\/.+/i;
+            const invalidUrls = urls.filter(u => !urlPattern.test(u));
+            if (invalidUrls.length > 0) {
+                errors.push('URLはhttp://またはhttps://で始まる形式で入力してください。');
+                setInputError(additionalUrlsInput);
+            }
+        }
+        
+        return {
+            isValid: errors.length === 0,
+            errors: errors
+        };
+    }
+
+    /**
+     * Set input error state
+     * @param {HTMLElement} input
+     */
+    function setInputError(input) {
+        input.classList.add('input-error');
+        input.setAttribute('aria-invalid', 'true');
+    }
+
+    /**
+     * Clear input error state
+     * @param {HTMLElement} input
+     */
+    function clearInputError(input) {
+        input.classList.remove('input-error');
+        input.removeAttribute('aria-invalid');
+    }
+
+    /**
+     * Show error messages
+     * @param {string[]} errors
+     */
+    function showErrors(errors) {
+        errorList.innerHTML = errors.map(err => `<li>${err}</li>`).join('');
+        errorContainer.style.display = 'block';
+        errorContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        // Focus first error input
+        const firstErrorInput = document.querySelector('.input-error');
+        if (firstErrorInput) {
+            firstErrorInput.focus();
+        }
+    }
+
+    /**
+     * Hide error messages
+     */
+    function hideErrors() {
+        errorContainer.style.display = 'none';
+        errorList.innerHTML = '';
+    }
+
+    /**
+     * Set loading state
+     * @param {boolean} isLoading
+     */
+    function setLoadingState(isLoading) {
+        const btnText = generateBtn.querySelector('.btn-text');
+        const btnLoading = generateBtn.querySelector('.btn-loading');
+        
+        if (isLoading) {
+            btnText.style.display = 'none';
+            btnLoading.style.display = 'inline-flex';
+            generateBtn.disabled = true;
+        } else {
+            btnText.style.display = 'inline';
+            btnLoading.style.display = 'none';
+            generateBtn.disabled = false;
+        }
     }
 
     /**
@@ -152,6 +299,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Scroll to output
         outputSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        
+        // Focus output for accessibility
+        outputPrompt.focus();
     }
 
     /**

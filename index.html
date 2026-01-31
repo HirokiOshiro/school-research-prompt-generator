@@ -3,18 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="大学入試課職員向け - 海外高校調査用AIプロンプト生成ツール">
     <title>高校調査プロンプト生成ツール | School Research Prompt Generator</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div class="container">
-        <header>
+        <header role="banner">
             <h1>🎓 高校調査プロンプト生成ツール</h1>
             <p class="subtitle">School Research Prompt Generator</p>
         </header>
 
-        <main>
-            <form id="promptForm">
+        <main role="main">
+            <!-- エラー表示領域 -->
+            <div id="errorContainer" class="error-container" role="alert" aria-live="polite" style="display: none;">
+                <div class="error-header">
+                    <span class="error-icon">⚠️</span>
+                    <span class="error-title">入力エラー</span>
+                    <button type="button" class="error-close" id="errorClose" aria-label="エラーを閉じる">&times;</button>
+                </div>
+                <ul id="errorList" class="error-list"></ul>
+            </div>
+
+            <form id="promptForm" novalidate>
                 <!-- 基本情報セクション -->
                 <section class="form-section">
                     <h2>■ 基本情報</h2>
@@ -22,13 +33,14 @@
                     <div class="form-group">
                         <label for="schoolName">高校名 <span class="required">*</span></label>
                         <input type="text" id="schoolName" name="schoolName" 
-                               placeholder="例: Beijing No. 4 High School / 北京市第四中学" required>
-                        <small>英語名または現地語名を入力してください</small>
+                               placeholder="例: Beijing No. 4 High School / 北京市第四中学" 
+                               required aria-required="true" aria-describedby="schoolNameHelp">
+                        <small id="schoolNameHelp">英語名または現地語名を入力してください</small>
                     </div>
 
                     <div class="form-group">
                         <label for="country">所在国 <span class="required">*</span></label>
-                        <select id="country" name="country" required>
+                        <select id="country" name="country" required aria-required="true">
                             <option value="">-- 選択してください --</option>
                             <option value="China">中国 (China)</option>
                             <option value="Korea">韓国 (South Korea)</option>
@@ -98,8 +110,8 @@
                     <h2>■ 調査設定</h2>
 
                     <div class="form-group">
-                        <label>調査目的 <span class="required">*</span></label>
-                        <div class="radio-group">
+                        <label id="purposeLabel">調査目的 <span class="required">*</span></label>
+                        <div class="radio-group" role="radiogroup" aria-labelledby="purposeLabel" aria-required="true">
                             <label class="radio-label">
                                 <input type="radio" name="purpose" value="new" required> 新規登録
                             </label>
@@ -130,34 +142,38 @@
 
                 <!-- ボタン -->
                 <div class="button-group">
-                    <button type="submit" class="btn btn-primary" id="generateBtn">
-                        プロンプト生成
+                    <button type="submit" class="btn btn-primary" id="generateBtn" aria-describedby="generateHelp">
+                        <span class="btn-text">プロンプト生成</span>
+                        <span class="btn-loading" style="display: none;">
+                            <span class="spinner"></span> 生成中...
+                        </span>
                     </button>
                     <button type="reset" class="btn btn-secondary" id="resetBtn">
                         リセット
                     </button>
                 </div>
+                <p id="generateHelp" class="visually-hidden">フォームを入力後、このボタンでAI用プロンプトを生成します</p>
             </form>
 
             <!-- 出力セクション -->
-            <section class="output-section" id="outputSection" style="display: none;">
+            <section class="output-section" id="outputSection" style="display: none;" aria-live="polite">
                 <div class="output-header">
                     <h2>■ 生成されたプロンプト</h2>
-                    <button type="button" class="btn btn-copy" id="copyBtn">
+                    <button type="button" class="btn btn-copy" id="copyBtn" aria-label="プロンプトをクリップボードにコピー">
                         📋 コピー
                     </button>
                 </div>
                 <div class="output-container">
-                    <pre id="outputPrompt"></pre>
+                    <pre id="outputPrompt" tabindex="0" aria-label="生成されたプロンプト"></pre>
                 </div>
-                <div class="copy-feedback" id="copyFeedback">
+                <div class="copy-feedback" id="copyFeedback" role="status" aria-live="polite">
                     ✓ クリップボードにコピーしました
                 </div>
             </section>
         </main>
 
-        <footer>
-            <p>School Research Prompt Generator v1.0 | Phase 1 Prototype</p>
+        <footer role="contentinfo">
+            <p>School Research Prompt Generator v2.0 | All 10 Countries Supported</p>
         </footer>
     </div>
 
