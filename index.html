@@ -12,6 +12,7 @@
         <header role="banner">
             <h1>🎓 高校調査プロンプト生成ツール</h1>
             <p class="subtitle">School Research Prompt Generator</p>
+            <p class="subtitle-sub">for University Admissions Staff</p>
         </header>
 
         <main role="main">
@@ -19,44 +20,62 @@
             <section class="guide-section" id="guideSection">
                 <button type="button" class="guide-toggle" id="guideToggle" aria-expanded="false" aria-controls="guideContent">
                     <span class="guide-toggle-icon">📖</span>
-                    <span class="guide-toggle-text">このツールの使い方</span>
+                    <span class="guide-toggle-text">使い方 / How to Use</span>
                     <span class="guide-toggle-arrow" aria-hidden="true">▼</span>
                 </button>
                 <div class="guide-content" id="guideContent" hidden>
                     <div class="guide-overview">
-                        <h3>このツールとは？</h3>
-                        <p>海外高校の調査をAI（Microsoft Copilot等）に依頼するための<strong>プロンプト（指示文）</strong>を自動生成します。</p>
+                        <h3>このツールとは？ / What is this tool?</h3>
+                        <p class="bilingual-text">
+                            <span class="ja">海外高校の調査をAIに依頼するための<strong>プロンプト（指示文）</strong>を自動生成します。</span>
+                            <span class="en">Automatically generates <strong>prompts</strong> for AI to research international high schools.</span>
+                        </p>
                     </div>
                     
                     <div class="guide-steps">
-                        <h3>基本的な流れ</h3>
+                        <h3>基本的な流れ / Basic Steps</h3>
                         <ol class="steps-list">
                             <li>
                                 <span class="step-number">1</span>
-                                <span class="step-text">調査したい<strong>高校名</strong>と<strong>国</strong>を入力</span>
+                                <span class="step-text bilingual-inline">
+                                    <span class="ja">調査したい<strong>高校名</strong>と<strong>国</strong>を入力</span>
+                                    <span class="en">Enter <strong>school name</strong> and <strong>country</strong></span>
+                                </span>
                             </li>
                             <li>
                                 <span class="step-number">2</span>
-                                <span class="step-text">必要に応じて詳細情報を選択</span>
+                                <span class="step-text bilingual-inline">
+                                    <span class="ja">必要に応じて詳細情報を選択</span>
+                                    <span class="en">Add optional details if known</span>
+                                </span>
                             </li>
                             <li>
                                 <span class="step-number">3</span>
-                                <span class="step-text">「<strong>プロンプト生成</strong>」ボタンをクリック</span>
+                                <span class="step-text bilingual-inline">
+                                    <span class="ja">「<strong>プロンプト生成</strong>」ボタンをクリック</span>
+                                    <span class="en">Click "<strong>Generate Prompt</strong>"</span>
+                                </span>
                             </li>
                             <li>
                                 <span class="step-number">4</span>
-                                <span class="step-text">生成されたプロンプトを<strong>コピー</strong></span>
+                                <span class="step-text bilingual-inline">
+                                    <span class="ja">生成されたプロンプトを<strong>コピー</strong></span>
+                                    <span class="en"><strong>Copy</strong> the generated prompt</span>
+                                </span>
                             </li>
                             <li>
                                 <span class="step-number">5</span>
-                                <span class="step-text">Microsoft Copilotに貼り付けて<strong>実行</strong></span>
+                                <span class="step-text bilingual-inline">
+                                    <span class="ja">Microsoft Copilotに貼り付けて<strong>実行</strong></span>
+                                    <span class="en"><strong>Paste</strong> into Microsoft Copilot and run</span>
+                                </span>
                             </li>
                         </ol>
                     </div>
                     
                     <div class="guide-note">
-                        <p>⏱️ <strong>所要時間：</strong>約1～2分</p>
-                        <p>💡 <strong>ヒント：</strong>最低限「高校名」と「国」だけでもプロンプトを生成できます</p>
+                        <p>⏱️ <strong>所要時間 / Time:</strong> 約1～2分 / About 1-2 minutes</p>
+                        <p>💡 <strong>ヒント / Tip:</strong> 最低限「高校名」と「国」だけでOK / Only "School Name" and "Country" are required</p>
                     </div>
                 </div>
             </section>
@@ -65,57 +84,57 @@
             <div id="errorContainer" class="error-container" role="alert" aria-live="polite" style="display: none;">
                 <div class="error-header">
                     <span class="error-icon">⚠️</span>
-                    <span class="error-title">入力エラー</span>
-                    <button type="button" class="error-close" id="errorClose" aria-label="エラーを閉じる">&times;</button>
+                    <span class="error-title">入力エラー / Input Error</span>
+                    <button type="button" class="error-close" id="errorClose" aria-label="エラーを閉じる / Close error">&times;</button>
                 </div>
                 <ul id="errorList" class="error-list"></ul>
             </div>
 
             <form id="promptForm" novalidate>
                 <!-- ステップインジケーター -->
-                <div class="step-indicator" role="navigation" aria-label="入力ステップ">
+                <div class="step-indicator" role="navigation" aria-label="入力ステップ / Input Steps">
                     <div class="step active" data-step="1">
                         <span class="step-dot">1</span>
-                        <span class="step-label">基本情報</span>
+                        <span class="step-label">基本情報<br><small>Basic</small></span>
                     </div>
                     <div class="step-line"></div>
                     <div class="step" data-step="2">
                         <span class="step-dot">2</span>
-                        <span class="step-label">学校詳細</span>
+                        <span class="step-label">学校詳細<br><small>Details</small></span>
                     </div>
                     <div class="step-line"></div>
                     <div class="step" data-step="3">
                         <span class="step-dot">3</span>
-                        <span class="step-label">調査設定</span>
+                        <span class="step-label">調査設定<br><small>Settings</small></span>
                     </div>
                 </div>
 
                 <!-- 基本情報セクション -->
                 <section class="form-section" data-section="1">
-                    <h2>■ 基本情報</h2>
+                    <h2>■ 基本情報 / Basic Information</h2>
                     
                     <div class="form-group">
                         <label for="schoolName">
-                            高校名 <span class="required">*</span>
-                            <button type="button" class="tooltip-btn" aria-label="高校名のヘルプ" data-tooltip="英語名がわかる場合は英語名を優先。現地語のみの場合はそのまま入力してOK。">
+                            高校名 / School Name <span class="required">*</span>
+                            <button type="button" class="tooltip-btn" aria-label="高校名のヘルプ" data-tooltip="英語名がわかる場合は英語名を優先。/ Enter English name if known, or local language name.">
                                 <span class="tooltip-icon">?</span>
                             </button>
                         </label>
                         <input type="text" id="schoolName" name="schoolName" 
-                               placeholder="例: Beijing No. 4 High School / 北京市第四中学" 
+                               placeholder="例 / e.g.: Beijing No. 4 High School / 北京市第四中学" 
                                required aria-required="true" aria-describedby="schoolNameHelp">
-                        <small id="schoolNameHelp">英語名または現地語名を入力してください</small>
+                        <small id="schoolNameHelp">英語名または現地語名を入力 / Enter in English or local language</small>
                     </div>
 
                     <div class="form-group">
                         <label for="country">
-                            所在国 <span class="required">*</span>
-                            <button type="button" class="tooltip-btn" aria-label="所在国のヘルプ" data-tooltip="国を選択すると、その国の教育制度に特化したプロンプトが生成されます。">
+                            所在国 / Country <span class="required">*</span>
+                            <button type="button" class="tooltip-btn" aria-label="所在国のヘルプ" data-tooltip="国を選択すると、その国の教育制度に特化したプロンプトが生成されます。/ Selecting a country generates a prompt tailored to that country's education system.">
                                 <span class="tooltip-icon">?</span>
                             </button>
                         </label>
                         <select id="country" name="country" required aria-required="true">
-                            <option value="">-- 選択してください --</option>
+                            <option value="">-- 選択 / Select --</option>
                             <option value="China">中国 (China)</option>
                             <option value="Korea">韓国 (South Korea)</option>
                             <option value="Vietnam">ベトナム (Vietnam)</option>
@@ -131,55 +150,55 @@
                     </div>
 
                     <div class="form-group" id="otherCountryGroup" style="display: none;">
-                        <label for="otherCountry">その他の国名 <span class="required">*</span></label>
+                        <label for="otherCountry">その他の国名 / Other Country Name <span class="required">*</span></label>
                         <input type="text" id="otherCountry" name="otherCountry" 
-                               placeholder="例: Singapore">
+                               placeholder="例 / e.g.: Singapore">
                     </div>
 
                     <!-- 国別警告表示エリア -->
                     <div class="country-warning" id="countryWarning" style="display: none;" role="alert">
                         <div class="country-warning-header">
                             <span class="warning-icon">⚠️</span>
-                            <span class="warning-title" id="countryWarningTitle">重要な注意点</span>
+                            <span class="warning-title" id="countryWarningTitle">重要な注意点 / Important Notes</span>
                         </div>
                         <ul class="country-warning-list" id="countryWarningList"></ul>
                     </div>
 
                     <div class="form-group">
                         <label for="cityState">
-                            都市/州（任意）
-                            <button type="button" class="tooltip-btn" aria-label="都市/州のヘルプ" data-tooltip="入力するとより精度の高い検索が可能になります。不明な場合は空欄でOK。">
+                            都市/州 / City/State <span class="optional">任意/Optional</span>
+                            <button type="button" class="tooltip-btn" aria-label="都市/州のヘルプ" data-tooltip="入力するとより精度の高い検索が可能。/ Helps narrow down the search. Leave blank if unknown.">
                                 <span class="tooltip-icon">?</span>
                             </button>
                         </label>
                         <input type="text" id="cityState" name="cityState" 
-                               placeholder="例: Beijing / ソウル / Ho Chi Minh City">
+                               placeholder="例 / e.g.: Beijing / Seoul / Ho Chi Minh City">
                     </div>
                 </section>
 
                 <!-- 学校詳細セクション -->
                 <section class="form-section" data-section="2">
-                    <h2>■ 学校詳細（わかる範囲で）</h2>
+                    <h2>■ 学校詳細 / School Details <span class="section-note">(わかる範囲で / if known)</span></h2>
 
                     <div class="form-group">
                         <label for="schoolType">
-                            学校種別
-                            <button type="button" class="tooltip-btn" aria-label="学校種別のヘルプ" data-tooltip="公立/私立/インターナショナルスクールの区分。不明な場合は未選択でOK。">
+                            学校種別 / School Type
+                            <button type="button" class="tooltip-btn" aria-label="学校種別のヘルプ" data-tooltip="Public/Private/International. Leave unselected if unknown.">
                                 <span class="tooltip-icon">?</span>
                             </button>
                         </label>
                         <select id="schoolType" name="schoolType">
-                            <option value="">-- 不明/未選択 --</option>
+                            <option value="">-- 不明 / Unknown --</option>
                             <option value="Public">公立 (Public)</option>
                             <option value="Private">私立 (Private)</option>
-                            <option value="International">インターナショナルスクール (International)</option>
+                            <option value="International">インターナショナル (International)</option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label>
-                            カリキュラム（複数選択可）
-                            <button type="button" class="tooltip-btn" aria-label="カリキュラムのヘルプ" data-tooltip="IB=国際バカロレア、A-Level=英国式、AP=米国式。インターナショナルスクールの場合に重要。">
+                            カリキュラム / Curriculum <span class="optional">複数選択可 / Multiple OK</span>
+                            <button type="button" class="tooltip-btn" aria-label="カリキュラムのヘルプ" data-tooltip="IB=International Baccalaureate, A-Level=British, AP=American. Important for international schools.">
                                 <span class="tooltip-icon">?</span>
                             </button>
                         </label>
@@ -194,10 +213,10 @@
                                 <input type="checkbox" name="curriculum" value="AP"> AP (Advanced Placement)
                             </label>
                             <label class="checkbox-label">
-                                <input type="checkbox" name="curriculum" value="National"> 国内課程 (National Curriculum)
+                                <input type="checkbox" name="curriculum" value="National"> 国内課程 (National)
                             </label>
                             <label class="checkbox-label">
-                                <input type="checkbox" name="curriculum" value="Unknown"> 不明
+                                <input type="checkbox" name="curriculum" value="Unknown"> 不明 (Unknown)
                             </label>
                         </div>
                     </div>
@@ -205,24 +224,24 @@
 
                 <!-- 調査設定セクション -->
                 <section class="form-section" data-section="3">
-                    <h2>■ 調査設定</h2>
+                    <h2>■ 調査設定 / Research Settings</h2>
 
                     <div class="form-group">
                         <label id="purposeLabel">
-                            調査目的 <span class="required">*</span>
-                            <button type="button" class="tooltip-btn" aria-label="調査目的のヘルプ" data-tooltip="新規登録=初めて調べる学校、情報更新=既存データの更新、資格確認=出願資格の確認。">
+                            調査目的 / Purpose <span class="required">*</span>
+                            <button type="button" class="tooltip-btn" aria-label="調査目的のヘルプ" data-tooltip="New Registration = first time research / Update = refresh existing data / Verification = check eligibility">
                                 <span class="tooltip-icon">?</span>
                             </button>
                         </label>
                         <div class="radio-group" role="radiogroup" aria-labelledby="purposeLabel" aria-required="true">
                             <label class="radio-label">
-                                <input type="radio" name="purpose" value="new" required> 新規登録
+                                <input type="radio" name="purpose" value="new" required> 新規登録 (New)
                             </label>
                             <label class="radio-label">
-                                <input type="radio" name="purpose" value="update"> 情報更新
+                                <input type="radio" name="purpose" value="update"> 情報更新 (Update)
                             </label>
                             <label class="radio-label">
-                                <input type="radio" name="purpose" value="verify"> 資格確認
+                                <input type="radio" name="purpose" value="verify"> 資格確認 (Verify)
                             </label>
                         </div>
                     </div>
@@ -230,72 +249,72 @@
                     <div class="form-group">
                         <label class="checkbox-label standalone">
                             <input type="checkbox" id="includeLocalSearch" name="includeLocalSearch">
-                            現地語での検索指示を含める
+                            現地語検索を含める / Include local language search
                         </label>
-                        <small>中国語、韓国語、ベトナム語等での検索クエリ例を出力に含めます</small>
+                        <small class="hint-bilingual">中国語、韓国語等での検索例を含む / Include search examples in Chinese, Korean, etc.</small>
                     </div>
 
                     <div class="form-group">
-                        <label for="additionalUrls">追加参照URL（任意）</label>
+                        <label for="additionalUrls">追加URL / Additional URLs <span class="optional">任意 / Optional</span></label>
                         <input type="text" id="additionalUrls" name="additionalUrls" 
-                               placeholder="例: https://example.com, https://school.edu">
-                        <small>確認したいURLがあればカンマ区切りで入力</small>
+                               placeholder="e.g. https://example.com, https://school.edu">
+                        <small class="hint-bilingual">確認したいURLをカンマ区切り / Comma-separated URLs to check</small>
                     </div>
                 </section>
 
                 <!-- ボタン -->
                 <div class="button-group">
                     <button type="submit" class="btn btn-primary" id="generateBtn" aria-describedby="generateHelp">
-                        <span class="btn-text">プロンプト生成</span>
+                        <span class="btn-text">生成 / Generate</span>
                         <span class="btn-loading" style="display: none;">
-                            <span class="spinner"></span> 生成中...
+                            <span class="spinner"></span> Generating...
                         </span>
                     </button>
                     <button type="reset" class="btn btn-secondary" id="resetBtn">
-                        リセット
+                        リセット / Reset
                     </button>
                 </div>
-                <p id="generateHelp" class="visually-hidden">フォームを入力後、このボタンでAI用プロンプトを生成します</p>
+                <p id="generateHelp" class="visually-hidden">Fill the form and click this button to generate an AI prompt</p>
             </form>
 
             <!-- 出力セクション -->
             <section class="output-section" id="outputSection" style="display: none;" aria-live="polite">
                 <div class="output-header">
-                    <h2>■ 生成されたプロンプト</h2>
-                    <button type="button" class="btn btn-copy" id="copyBtn" aria-label="プロンプトをクリップボードにコピー">
-                        📋 コピー
+                    <h2>■ 生成されたプロンプト / Generated Prompt</h2>
+                    <button type="button" class="btn btn-copy" id="copyBtn" aria-label="Copy prompt to clipboard">
+                        📋 Copy
                     </button>
                 </div>
                 <div class="output-container">
-                    <pre id="outputPrompt" tabindex="0" aria-label="生成されたプロンプト"></pre>
+                    <pre id="outputPrompt" tabindex="0" aria-label="Generated prompt"></pre>
                 </div>
                 <div class="copy-feedback" id="copyFeedback" role="status" aria-live="polite">
-                    ✓ クリップボードにコピーしました
+                    ✓ Copied to clipboard
                 </div>
                 
                 <!-- 次のステップガイド -->
                 <div class="next-steps-guide">
-                    <h3>🚀 次のステップ</h3>
+                    <h3>🚀 Next Steps / 次のステップ</h3>
                     <ol class="next-steps-list">
                         <li>
                             <span class="step-icon">📋</span>
-                            <span>上の「<strong>コピー</strong>」ボタンでプロンプトをコピー</span>
+                            <span>Click "<strong>Copy</strong>" to copy the prompt<br><span class="hint-small">プロンプトをコピー</span></span>
                         </li>
                         <li>
                             <span class="step-icon">💻</span>
-                            <span><a href="https://copilot.microsoft.com/" target="_blank" rel="noopener noreferrer">Microsoft Copilot</a> を開く</span>
+                            <span>Open <a href="https://copilot.microsoft.com/" target="_blank" rel="noopener noreferrer">Microsoft Copilot</a><br><span class="hint-small">Copilotを開く</span></span>
                         </li>
                         <li>
                             <span class="step-icon">📨</span>
-                            <span>コピーしたプロンプトを貼り付けて送信</span>
+                            <span>Paste and send the prompt<br><span class="hint-small">プロンプトを貼り付けて送信</span></span>
                         </li>
                         <li>
                             <span class="step-icon">✅</span>
-                            <span>AIの回答を確認し、必要に応じて追加質問</span>
+                            <span>Review the AI response and ask follow-up questions if needed<br><span class="hint-small">AIの回答を確認し、追加質問</span></span>
                         </li>
                     </ol>
                     <div class="next-steps-tip">
-                        <strong>💡 ヒント:</strong> 情報が不足している場合は「○○についてもっと詳しく教えて」と追加で質問してください。
+                        <strong>💡 Tip:</strong> If information is incomplete, ask "Tell me more about ○○" / 情報不足時は追加質問してください
                     </div>
                 </div>
             </section>

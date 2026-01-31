@@ -871,3 +871,99 @@ select:focus-visible {
         left: auto;
         right: 5px;
         transform: none;
+    }
+}
+
+/* ========================================
+   Bilingual / バイリンガルスタイル
+   ======================================== */
+
+/* Optional tag for labels */
+.optional {
+    font-size: 0.75rem;
+    font-weight: normal;
+    color: var(--text-muted);
+    margin-left: 4px;
+}
+
+/* Section note (smaller text in section headers) */
+.section-note {
+    font-size: 0.85rem;
+    font-weight: normal;
+    color: var(--text-muted);
+}
+
+/* Bilingual text block (for guide section) */
+.bilingual-text {
+    display: block;
+    margin-bottom: 12px;
+}
+
+.bilingual-text .ja {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.bilingual-text .en {
+    display: block;
+    font-size: 0.9em;
+    color: var(--text-muted);
+}
+
+/* Bilingual inline (for short labels) */
+.bilingual-inline {
+    display: block;
+}
+
+.bilingual-inline .ja {
+    display: inline;
+}
+
+.bilingual-inline .en {
+    display: inline;
+    font-size: 0.9em;
+    color: var(--text-muted);
+}
+
+/* Hint text - bilingual style */
+.hint-bilingual {
+    display: block;
+    margin-top: 4px;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+/* Small hint for next steps */
+.hint-small {
+    font-size: 0.85em;
+    color: var(--text-muted);
+}
+
+/* Step label enhancement for bilingual */
+.step-label small {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+/* Responsive adjustments for bilingual labels */
+@media (max-width: 600px) {
+    .form-group label {
+        font-size: 0.95rem;
+    }
+    
+    .section-note {
+        display: block;
+        margin-top: 4px;
+    }
+    
+    .hint-bilingual {
+        font-size: 0.8rem;
+    }
+    
+    .next-steps-list li span .hint-small {
+        font-size: 0.8em;
+    }
+}

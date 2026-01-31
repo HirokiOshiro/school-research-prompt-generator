@@ -325,20 +325,20 @@ document.addEventListener('DOMContentLoaded', function() {
         const schoolNameInput = document.getElementById('schoolName');
         const schoolName = schoolNameInput.value.trim();
         if (!schoolName) {
-            errors.push('高校名を入力してください。');
+            errors.push('高校名を入力してください / Please enter school name');
             setInputError(schoolNameInput);
         } else if (schoolName.length < 2) {
-            errors.push('高校名は2文字以上で入力してください。');
+            errors.push('高校名は2文字以上 / School name: 2+ characters required');
             setInputError(schoolNameInput);
         } else if (schoolName.length > 200) {
-            errors.push('高校名は200文字以内で入力してください。');
+            errors.push('高校名は200文字以内 / School name: max 200 characters');
             setInputError(schoolNameInput);
         }
         
         // Check country
         const country = countrySelect.value;
         if (!country) {
-            errors.push('所在国を選択してください。');
+            errors.push('所在国を選択してください / Please select a country');
             setInputError(countrySelect);
         }
         
@@ -346,10 +346,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (country === 'Other') {
             const otherCountry = otherCountryInput.value.trim();
             if (!otherCountry) {
-                errors.push('その他の国名を入力してください。');
+                errors.push('その他の国名を入力してください / Please enter country name');
                 setInputError(otherCountryInput);
             } else if (otherCountry.length < 2) {
-                errors.push('国名は2文字以上で入力してください。');
+                errors.push('国名は2文字以上 / Country name: 2+ characters required');
                 setInputError(otherCountryInput);
             }
         }
@@ -357,7 +357,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Check purpose
         const purpose = document.querySelector('input[name="purpose"]:checked');
         if (!purpose) {
-            errors.push('調査目的を選択してください。');
+            errors.push('調査目的を選択してください / Please select a research purpose');
         }
         
         // Check additional URLs format (if provided)
@@ -368,7 +368,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const urlPattern = /^https?:\/\/.+/i;
             const invalidUrls = urls.filter(u => !urlPattern.test(u));
             if (invalidUrls.length > 0) {
-                errors.push('URLはhttp://またはhttps://で始まる形式で入力してください。');
+                errors.push('URLはhttp://またはhttps://形式で / URL must start with http:// or https://');
                 setInputError(additionalUrlsInput);
             }
         }
@@ -519,7 +519,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.execCommand('copy');
             showCopyFeedback();
         } catch (err) {
-            alert('コピーに失敗しました。テキストを手動で選択してコピーしてください。');
+            alert('Copy failed. Please select and copy manually. / コピー失敗。手動でコピーしてください。');
         }
         
         document.body.removeChild(textArea);
