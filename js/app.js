@@ -2,6 +2,7 @@
  * Main Application Logic for School Research Prompt Generator
  * Handles form events, validation, and UI interactions
  * Phase 3: Enhanced validation, error display, loading states, accessibility
+ * Phase 3.5: User guide, next steps guide, country warnings
  */
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -19,9 +20,27 @@ document.addEventListener('DOMContentLoaded', function() {
     const errorContainer = document.getElementById('errorContainer');
     const errorList = document.getElementById('errorList');
     const errorClose = document.getElementById('errorClose');
+    
+    // Guide elements
+    const guideToggle = document.getElementById('guideToggle');
+    const guideContent = document.getElementById('guideContent');
+    
+    // Country warning elements
+    const countryWarning = document.getElementById('countryWarning');
+    const countryWarningTitle = document.getElementById('countryWarningTitle');
+    const countryWarningList = document.getElementById('countryWarningList');
 
     /**
-     * Show/hide "Other" country input based on selection
+     * Guide toggle handler
+     */
+    guideToggle.addEventListener('click', function() {
+        const isExpanded = this.getAttribute('aria-expanded') === 'true';
+        this.setAttribute('aria-expanded', !isExpanded);
+        guideContent.hidden = isExpanded;
+    });
+
+    /**
+     * Show/hide "Other" country input and country warnings based on selection
      */
     countrySelect.addEventListener('change', function() {
         if (this.value === 'Other') {
@@ -36,7 +55,64 @@ document.addEventListener('DOMContentLoaded', function() {
             clearInputError(otherCountryInput);
         }
         clearInputError(countrySelect);
+        
+        // Show country-specific warnings
+        showCountryWarnings(this.value);
     });
+
+    /**
+     * Display country-specific warnings
+     * @param {string} country
+     */
+    function showCountryWarnings(country) {
+        if (!country || country === 'Other') {
+            countryWarning.style.display = 'none';
+            return;
+        }
+        
+        const countryInfo = countryData[country];
+        if (!countryInfo || !countryInfo.warnings || countryInfo.warnings.length === 0) {
+            countryWarning.style.display = 'none';
+            return;
+        }
+        
+        // Filter to show only critical warnings (those with ⚠️ or CRITICAL)
+        const criticalWarnings = countryInfo.warnings.filter(w => 
+            w.includes('⚠️') || w.includes('CRITICAL') || w.includes('重要')
+        );
+        
+        // If no critical warnings, show first 2 general warnings
+        const warningsToShow = criticalWarnings.length > 0 
+            ? criticalWarnings 
+            : countryInfo.warnings.slice(0, 2);
+        
+        if (warningsToShow.length === 0) {
+            countryWarning.style.display = 'none';
+            return;
+        }
+        
+        // Update title with country name
+        const countryNames = {
+            'China': '中国',
+            'Korea': '韓国',
+            'Vietnam': 'ベトナム',
+            'Taiwan': '台湾',
+            'Thailand': 'タイ',
+            'Indonesia': 'インドネシア',
+            'Malaysia': 'マレーシア',
+            'Philippines': 'フィリピン',
+            'India': 'インド',
+            'Japan': '日本'
+        };
+        countryWarningTitle.textContent = `${countryNames[country] || country} の重要な注意点`;
+        
+        // Populate warning list
+        countryWarningList.innerHTML = warningsToShow
+            .map(w => `<li>${w}</li>`)
+            .join('');
+        
+        countryWarning.style.display = 'block';
+    }
 
     /**
      * Clear error state on input

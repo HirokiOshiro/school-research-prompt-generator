@@ -15,6 +15,52 @@
         </header>
 
         <main role="main">
+            <!-- 利用ガイドセクション -->
+            <section class="guide-section" id="guideSection">
+                <button type="button" class="guide-toggle" id="guideToggle" aria-expanded="false" aria-controls="guideContent">
+                    <span class="guide-toggle-icon">📖</span>
+                    <span class="guide-toggle-text">このツールの使い方</span>
+                    <span class="guide-toggle-arrow" aria-hidden="true">▼</span>
+                </button>
+                <div class="guide-content" id="guideContent" hidden>
+                    <div class="guide-overview">
+                        <h3>このツールとは？</h3>
+                        <p>海外高校の調査をAI（Microsoft Copilot等）に依頼するための<strong>プロンプト（指示文）</strong>を自動生成します。</p>
+                    </div>
+                    
+                    <div class="guide-steps">
+                        <h3>基本的な流れ</h3>
+                        <ol class="steps-list">
+                            <li>
+                                <span class="step-number">1</span>
+                                <span class="step-text">調査したい<strong>高校名</strong>と<strong>国</strong>を入力</span>
+                            </li>
+                            <li>
+                                <span class="step-number">2</span>
+                                <span class="step-text">必要に応じて詳細情報を選択</span>
+                            </li>
+                            <li>
+                                <span class="step-number">3</span>
+                                <span class="step-text">「<strong>プロンプト生成</strong>」ボタンをクリック</span>
+                            </li>
+                            <li>
+                                <span class="step-number">4</span>
+                                <span class="step-text">生成されたプロンプトを<strong>コピー</strong></span>
+                            </li>
+                            <li>
+                                <span class="step-number">5</span>
+                                <span class="step-text">Microsoft Copilotに貼り付けて<strong>実行</strong></span>
+                            </li>
+                        </ol>
+                    </div>
+                    
+                    <div class="guide-note">
+                        <p>⏱️ <strong>所要時間：</strong>約1～2分</p>
+                        <p>💡 <strong>ヒント：</strong>最低限「高校名」と「国」だけでもプロンプトを生成できます</p>
+                    </div>
+                </div>
+            </section>
+
             <!-- エラー表示領域 -->
             <div id="errorContainer" class="error-container" role="alert" aria-live="polite" style="display: none;">
                 <div class="error-header">
@@ -60,6 +106,15 @@
                         <label for="otherCountry">その他の国名 <span class="required">*</span></label>
                         <input type="text" id="otherCountry" name="otherCountry" 
                                placeholder="例: Singapore">
+                    </div>
+
+                    <!-- 国別警告表示エリア -->
+                    <div class="country-warning" id="countryWarning" style="display: none;" role="alert">
+                        <div class="country-warning-header">
+                            <span class="warning-icon">⚠️</span>
+                            <span class="warning-title" id="countryWarningTitle">重要な注意点</span>
+                        </div>
+                        <ul class="country-warning-list" id="countryWarningList"></ul>
                     </div>
 
                     <div class="form-group">
@@ -168,6 +223,32 @@
                 </div>
                 <div class="copy-feedback" id="copyFeedback" role="status" aria-live="polite">
                     ✓ クリップボードにコピーしました
+                </div>
+                
+                <!-- 次のステップガイド -->
+                <div class="next-steps-guide">
+                    <h3>🚀 次のステップ</h3>
+                    <ol class="next-steps-list">
+                        <li>
+                            <span class="step-icon">📋</span>
+                            <span>上の「<strong>コピー</strong>」ボタンでプロンプトをコピー</span>
+                        </li>
+                        <li>
+                            <span class="step-icon">💻</span>
+                            <span><a href="https://copilot.microsoft.com/" target="_blank" rel="noopener noreferrer">Microsoft Copilot</a> を開く</span>
+                        </li>
+                        <li>
+                            <span class="step-icon">📨</span>
+                            <span>コピーしたプロンプトを貼り付けて送信</span>
+                        </li>
+                        <li>
+                            <span class="step-icon">✅</span>
+                            <span>AIの回答を確認し、必要に応じて追加質問</span>
+                        </li>
+                    </ol>
+                    <div class="next-steps-tip">
+                        <strong>💡 ヒント:</strong> 情報が不足している場合は「○○についてもっと詳しく教えて」と追加で質問してください。
+                    </div>
                 </div>
             </section>
         </main>
