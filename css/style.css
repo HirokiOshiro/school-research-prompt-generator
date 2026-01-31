@@ -967,3 +967,165 @@ select:focus-visible {
         font-size: 0.8em;
     }
 }
+
+/* ========================================
+   Important Notice Banner / 重要な注意事項バナー
+   ======================================== */
+
+.important-notice-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    border: 1px solid #f59e0b;
+    border-left: 4px solid #f59e0b;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+.notice-icon {
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.notice-content {
+    flex: 1;
+}
+
+.notice-main {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #92400e;
+    line-height: 1.5;
+}
+
+.notice-main strong {
+    color: #78350f;
+}
+
+.notice-en {
+    display: block;
+    font-size: 0.85rem;
+    color: #a16207;
+    margin-top: 4px;
+}
+
+/* ========================================
+   Verification Checklist / 確認チェックリスト
+   ======================================== */
+
+.verification-checklist {
+    margin-top: 24px;
+    padding: 20px;
+    background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+    border: 1px solid var(--success-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+.verification-checklist h3 {
+    margin: 0 0 12px 0;
+    font-size: 1.1rem;
+    color: #065f46;
+}
+
+.checklist-intro {
+    margin: 0 0 16px 0;
+    font-size: 0.95rem;
+    color: var(--text-color);
+    line-height: 1.5;
+}
+
+.checklist-items {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px 0;
+}
+
+.checklist-items li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px;
+    margin-bottom: 12px;
+    background: white;
+    border-radius: 6px;
+    border: 1px solid #a7f3d0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.checklist-items li:last-child {
+    margin-bottom: 0;
+}
+
+.checklist-items li:hover {
+    transform: translateX(4px);
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.15);
+}
+
+.check-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.check-content {
+    flex: 1;
+}
+
+.check-content strong {
+    color: #065f46;
+    font-size: 0.95rem;
+}
+
+.check-detail {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    line-height: 1.5;
+}
+
+.checklist-warning {
+    padding: 12px 14px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    color: #991b1b;
+    line-height: 1.5;
+}
+
+.checklist-warning strong {
+    color: #7f1d1d;
+}
+
+/* Responsive for checklist */
+@media (max-width: 600px) {
+    .important-notice-banner {
+        padding: 12px 14px;
+    }
+    
+    .notice-main {
+        font-size: 0.9rem;
+    }
+    
+    .verification-checklist {
+        padding: 16px;
+    }
+    
+    .checklist-items li {
+        padding: 12px;
+    }
+    
+    .check-content strong {
+        font-size: 0.9rem;
+    }
+    
+    .check-detail {
+        font-size: 0.85rem;
+    }
+}

@@ -90,6 +90,18 @@
                 <ul id="errorList" class="error-list"></ul>
             </div>
 
+            <!-- 重要な注意事項バナー -->
+            <div class="important-notice-banner" role="note">
+                <div class="notice-icon">⚠️</div>
+                <div class="notice-content">
+                    <p class="notice-main">
+                        <strong>重要 / Important:</strong>
+                        AIの回答は必ず公式情報で裏付けを取ってください。
+                        <span class="notice-en">Always verify AI responses with official sources.</span>
+                    </p>
+                </div>
+            </div>
+
             <form id="promptForm" novalidate>
                 <!-- ステップインジケーター -->
                 <div class="step-indicator" role="navigation" aria-label="入力ステップ / Input Steps">
@@ -315,6 +327,46 @@
                     </ol>
                     <div class="next-steps-tip">
                         <strong>💡 Tip:</strong> If information is incomplete, ask "Tell me more about ○○" / 情報不足時は追加質問してください
+                    </div>
+                </div>
+
+                <!-- 確認事項チェックリスト -->
+                <div class="verification-checklist" role="note">
+                    <h3>✅ 確認チェックリスト / Verification Checklist</h3>
+                    <p class="checklist-intro">
+                        AIの回答を業務に使用する前に、以下を必ず確認してください。<br>
+                        <span class="hint-small">Before using AI responses for work, please verify the following:</span>
+                    </p>
+                    <ul class="checklist-items">
+                        <li>
+                            <span class="check-icon">🔗</span>
+                            <div class="check-content">
+                                <strong>リンク先の確認 / Verify Links</strong><br>
+                                <span class="check-detail">AIが提示したリンク先に実際にアクセスし、情報が正確か確認してください。</span><br>
+                                <span class="hint-small">Access the links provided by AI and confirm the information is accurate.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="check-icon">📄</span>
+                            <div class="check-content">
+                                <strong>提出書類との照合 / Cross-check with Documents</strong><br>
+                                <span class="check-detail">志願者から提出された成績表・卒業（見込み）証明書の学校名・住所等と一致しているか確認してください。</span><br>
+                                <span class="hint-small">Verify that school name, address, etc. match the transcripts and certificates submitted by the applicant.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="check-icon">📖</span>
+                            <div class="check-content">
+                                <strong>業務マニュアルの参照 / Refer to Work Manual</strong><br>
+                                <span class="check-detail">最終判断は必ず業務マニュアルに従って行ってください。</span><br>
+                                <span class="hint-small">Always follow the work manual for final decisions.</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="checklist-warning">
+                        <strong>⚠️ 注意 / Warning:</strong>
+                        AIの回答には誤りが含まれる場合があります。公式情報での裏付けなく業務判断に使用しないでください。<br>
+                        <span class="hint-small">AI responses may contain errors. Do not use for business decisions without verification from official sources.</span>
                     </div>
                 </div>
             </section>
