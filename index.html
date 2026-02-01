@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="大学入試課職員向け - 海外高校調査用AIプロンプト生成ツール">
-    <title>高校調査プロンプト生成ツール | School Research Prompt Generator</title>
+    <meta name="description" content="大学入学課職員向け - 学校調査用AIプロンプト生成ツール">
+    <title>学校調査プロンプト生成ツール | School Research Prompt Generator</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div class="container">
         <header role="banner">
-            <h1>🎓 高校調査プロンプト生成ツール</h1>
+            <h1>🎓 学校調査プロンプト生成ツール</h1>
             <p class="subtitle">School Research Prompt Generator</p>
-            <p class="subtitle-sub">for University Admissions Staff</p>
         </header>
 
         <main role="main">
@@ -29,8 +28,8 @@
                     <div class="guide-overview">
                         <h3>このツールとは？ / What is this tool?</h3>
                         <p class="bilingual-text">
-                            <span class="ja">海外高校の調査をAIに依頼するための<strong>プロンプト（指示文）</strong>を自動生成します。</span>
-                            <span class="en">Automatically generates <strong>prompts</strong> for AI to research international high schools.</span>
+                            <span class="ja">学校の調査をAIに依頼するための<strong>プロンプト（指示文）</strong>を自動生成します。</span>
+                            <span class="en">Automatically generates <strong>prompts</strong> for AI to research international variety schools.</span>
                         </p>
                     </div>
                     
@@ -40,7 +39,7 @@
                             <li>
                                 <span class="step-number">1</span>
                                 <span class="step-text bilingual-inline">
-                                    <span class="ja">調査したい<strong>高校名</strong>と<strong>国</strong>を入力</span>
+                                    <span class="ja">調査したい<strong>学校名</strong>と<strong>国</strong>を入力</span>
                                     <span class="en">Enter <strong>school name</strong> and <strong>country</strong></span>
                                 </span>
                             </li>
@@ -77,7 +76,7 @@
                     
                     <div class="guide-note">
                         <p>⏱️ <strong>所要時間 / Time:</strong> 約1～2分 / About 1-2 minutes</p>
-                        <p>💡 <strong>ヒント / Tip:</strong> 最低限「高校名」と「国」だけでOK / Only "School Name" and "Country" are required</p>
+                        <p>💡 <strong>ヒント / Tip:</strong> 最低限「学校名」と「国」だけでOK / Only "School Name" and "Country" are required</p>
                     </div>
                 </div>
             </section>
@@ -169,13 +168,13 @@
                     
                     <div class="form-group">
                         <label for="schoolName">
-                            高校名 / School Name <span class="required">*</span>
-                            <button type="button" class="tooltip-btn" aria-label="高校名のヘルプ" data-tooltip="英語名がわかる場合は英語名を優先。/ Enter English name if known, or local language name.">
+                            学校名 / School Name <span class="required">*</span>
+                            <button type="button" class="tooltip-btn" aria-label="学校名のヘルプ" data-tooltip="英語名がわかる場合は英語名を優先。/ Enter English name if known, or local language name.">
                                 <span class="tooltip-icon">?</span>
                             </button>
                         </label>
                         <input type="text" id="schoolName" name="schoolName" 
-                               placeholder="例 / e.g.: Beijing No. 4 High School / 北京市第四中学" 
+                               placeholder="例 / e.g.: Beijing No. 4 School / 北京市第四中学" 
                                required aria-required="true" aria-describedby="schoolNameHelp schoolNameError">
                         <span class="inline-error" id="schoolNameError" role="alert" aria-live="polite"></span>
                         <small id="schoolNameHelp">英語名または現地語名を入力 / Enter in English or local language</small>
@@ -453,7 +452,7 @@
                             <h4>② 入力情報の「非保存」</h4>
                             <p>本ツールにはデータベースや保存機能が存在しません。</p>
                             <ul>
-                                <li><strong>メモリ上のみの処理:</strong> 入力した高校名や調査目的は、ブラウザのメモリ（一時的な記憶領域）にのみ保持されます。</li>
+                                <li><strong>メモリ上のみの処理:</strong> 入力した学校名や調査目的は、ブラウザのメモリ（一時的な記憶領域）にのみ保持されます。</li>
                                 <li><strong>自動消去:</strong> ブラウザのタブを閉じる、またはページを再読み込みした瞬間に、入力したすべてのデータは完全に消去されます。</li>
                             </ul>
 
@@ -474,7 +473,7 @@
                             <h4>② 「個人情報」の入力に関する推奨事項</h4>
                             <ul>
                                 <li><strong>志願者氏名は入力しない:</strong> 志願者個人の名前などは入力項目にありませんが、備考欄等にも記載しないようにしてください。</li>
-                                <li><strong>抽象化して入力:</strong> 「特定の個人の状況」ではなく、「特定の高校の教育制度」を調べるためのツールとして活用してください。</li>
+                                <li><strong>抽象化して入力:</strong> 「特定の個人の状況」ではなく、「特定の学校の教育制度」を調べるためのツールとして活用してください。</li>
                             </ul>
 
                             <h4>③ 回答の真偽確認（ファクトチェック）</h4>
