@@ -42,6 +42,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const noticeExpandBtn = document.getElementById('noticeExpandBtn');
     const noticeExpandPanel = document.getElementById('noticeExpandPanel');
 
+    // Security modal elements
+    const securityToggle = document.getElementById('securityToggle');
+    const securityModal = document.getElementById('securityModal');
+    const securityModalClose = document.getElementById('securityModalClose');
+    const securityModalConfirm = document.getElementById('securityModalConfirm');
+
     /**
      * Guide toggle handler
      */
@@ -149,6 +155,46 @@ document.addEventListener('DOMContentLoaded', function() {
     verificationModal.addEventListener('click', function(e) {
         if (e.target === verificationModal) {
             hideVerificationModal();
+        }
+    });
+
+    /**
+     * Security Modal handlers
+     */
+    function showSecurityModal() {
+        securityModal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+        securityModalClose.focus();
+    }
+
+    function hideSecurityModal() {
+        securityModal.classList.remove('show');
+        document.body.style.overflow = '';
+    }
+
+    securityToggle.addEventListener('click', function() {
+        showSecurityModal();
+    });
+
+    securityModalClose.addEventListener('click', function() {
+        hideSecurityModal();
+    });
+
+    securityModalConfirm.addEventListener('click', function() {
+        hideSecurityModal();
+    });
+
+    // Close security modal on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && securityModal.classList.contains('show')) {
+            hideSecurityModal();
+        }
+    });
+
+    // Close security modal on overlay click
+    securityModal.addEventListener('click', function(e) {
+        if (e.target === securityModal) {
+            hideSecurityModal();
         }
     });
 
